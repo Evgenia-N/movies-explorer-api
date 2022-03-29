@@ -2,7 +2,7 @@ const express = require('express');
 
 const movieRoutes = express.Router();
 
-// const auth = require('../middlewares/auth');
+const auth = require('../middlewares/auth');
 
 // const { validateMovieInfo, validateMovieId } = require('../middlewares/validation');
 

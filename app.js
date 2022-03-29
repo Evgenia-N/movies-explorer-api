@@ -1,20 +1,27 @@
+//   require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const errorHandler = require('./middlewares/error-handler');
 const userRoutes = require('./routes/users');
 const movieRoutes = require('./routes/movies');
+const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
 const { PORT = 3000 } = process.env;
 
+app.use(cookieParser());
 app.use(userRoutes);
 app.use(movieRoutes);
 app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница по указанному адресу не найдена'));
 });
+app.use(errorHandler);
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+  await mongoose.connect(process.env.DB_CONN, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
