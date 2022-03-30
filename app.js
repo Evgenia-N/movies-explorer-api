@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const userRoutes = require('./routes/users');
@@ -11,7 +12,7 @@ const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 app.use(cookieParser());
 app.use(requestLogger);
@@ -21,6 +22,7 @@ app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница по указанному адресу не найдена'));
 });
 app.use(errorLogger);
+app.use(errors());
 app.use(errorHandler);
 
 async function main() {

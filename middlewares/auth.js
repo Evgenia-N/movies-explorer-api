@@ -4,7 +4,7 @@ const UnAuthorisedError = require('../errors/UnAuthorisedError');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
-  const token = req.cookies.MovieToken;
+  const token = req.cookies.movieToken;
   if (!token) {
     throw new UnAuthorisedError('Необходима авторизация');
   }

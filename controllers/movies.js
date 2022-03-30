@@ -53,10 +53,10 @@ exports.createMovie = async (req, res, next) => {
 
 exports.deleteMovie = async (req, res, next) => {
   try {
-    const deletedMovie = await Movie.findById(req.params.movieId);
+    const deletedMovie = await Movie.findById(req.params._id);
     if (deletedMovie) {
       if (req.user._id === deletedMovie.owner._id.toString()) {
-        await Movie.findByIdAndRemove(req.params.movieId);
+        await Movie.findByIdAndRemove(req.params._id);
         res.status(200).send({ message: 'Следующие данные были удалены', deletedMovie });
       } else {
         throw new ForbiddenError('Нет прав для удаления данного фильма');
