@@ -3,17 +3,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
+const { limiter } = require('./middlewares/rate-limiter');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const auth = require('./middlewares/auth');
 const userRoutes = require('./routes/users');
 const movieRoutes = require('./routes/movies');
-const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
 const { PORT = 3001 } = process.env;
 
+app.use(helmet());
+app.use(limiter);
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(userRoutes);
