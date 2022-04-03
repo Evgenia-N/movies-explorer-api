@@ -1,4 +1,6 @@
 require('dotenv').config();
+
+const { NODE_ENV, DB_CONN } = process.env;
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -30,7 +32,7 @@ app.use(errors());
 app.use(errorHandler);
 
 async function main() {
-  await mongoose.connect(process.env.DB_CONN, {
+  await mongoose.connect(NODE_ENV === 'production' ? DB_CONN : 'mongodb://localhost:27017/moviesdb-dev', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
