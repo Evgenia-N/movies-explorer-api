@@ -22,9 +22,6 @@ exports.createUser = (req, res, next) => {
   const {
     email, password, name,
   } = req.body;
-  if (!email || !password || !name) {
-    throw new BadRequestError('Произошла ошибка при заполнении обязательных полей');
-  }
   return bcrypt.hash(password, SALT_ROUNDS)
     .then((hash) => User.create({
       email,
@@ -37,8 +34,7 @@ exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Произошла ошибка при заполнении обязательных полей'));
-      }
-      if (err.code === DUPLICATE_ERROR_CODE) {
+      } else if (err.code === DUPLICATE_ERROR_CODE) {
         next(new DuplicateError('Пользователь с таким email уже зарегистрирован'));
       } else {
         next(err);
@@ -48,18 +44,15 @@ exports.createUser = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    throw new BadRequestError('Произошла ошибка при заполнении обязательных полей');
-  }
   return User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Переданы некорректные данные'));
+        return Promise.reject(new Error('Указан неверный логин или пароль'));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('Переданы некорректные данные'));
+            return Promise.reject(new Error('Указан неверный логин или пароль'));
           }
           const token = generateToken({ _id: user._id });
           res.cookie('movieToken', token, {
@@ -96,6 +89,8 @@ exports.updateUser = async (req, res, next) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError('Произошла ошибка при заполнении обязательных полей'));
+    } else if (err.code === DUPLICATE_ERROR_CODE) {
+      next(new DuplicateError('Пользователь с таким email уже зарегистрирован'));
     } else {
       next(err);
     }

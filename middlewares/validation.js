@@ -53,7 +53,7 @@ const validateUserInfo = celebrate({
 
 const validateMovieId = celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().required(),
+    _id: Joi.string().hex().length(24).required(),
   }),
 });
 
@@ -117,7 +117,7 @@ const validateMovieInfo = celebrate({
       .messages({
         'any.required': 'Обязательное поле',
       }),
-    movieId: Joi.string().hex().required()
+    movieId: Joi.number().required()
       .messages({
         'any.required': 'Обязательное поле',
       }),

@@ -19,9 +19,9 @@ const app = express();
 const { PORT = 3001 } = process.env;
 
 app.use(helmet());
+app.use(requestLogger);
 app.use(limiter);
 app.use(cookieParser());
-app.use(requestLogger);
 app.use(userRoutes);
 app.use(movieRoutes);
 app.use('*', auth, (req, res, next) => {
