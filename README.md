@@ -1,1 +1,3 @@
-# movies-explorer-api
+# Дипломный проект на курсе "Веб-разработчик" на Яндекс Практикуме!
+
+[Ссылка на бэкенд](https://api.evgexmovies.nomoredomains.xyz)
