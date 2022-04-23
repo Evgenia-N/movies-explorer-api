@@ -18,6 +18,28 @@ const app = express();
 
 const { PORT = 3001 } = process.env;
 
+const allowedDomains = [
+  'https://evgexmovies.nomoredomains.xyz',
+  'http://evgexmovies.nomoredomains.xyz',
+  'http://localhost:3000',
+];
+
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+  if (allowedDomains.includes(origin)) {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Origin', origin);
+    const { method } = req;
+    const DEFAULT_ALLOWED_METHODS = 'GET,PUT,PATCH,POST,DELETE';
+    if (method === 'OPTIONS') {
+      const requestHeaders = req.headers['access-control-request-headers'];
+      res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+      res.header('Access-Control-Allow-Headers', requestHeaders);
+    }
+  }
+  next();
+});
+
 app.use(helmet());
 app.use(requestLogger);
 app.use(limiter);
