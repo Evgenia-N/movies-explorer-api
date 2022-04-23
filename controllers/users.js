@@ -60,7 +60,7 @@ exports.login = (req, res, next) => {
             httpOnly: true,
             sameSite: true,
           });
-          return res.status(200).send({ message: `С возвращением, ${user.name}!`, jwt: token });
+          return res.status(200).send({ message: `С возвращением, ${user.name}!`, jwt: token, _id: user._id });
         })
         .catch((err) => {
           next(new UnAuthorisedError(err.message));
@@ -99,7 +99,7 @@ exports.updateUser = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    res.status(202).clearCookie('movieToken').send('Вы покинули сайт');
+    res.status(202).clearCookie('movieToken').send({ message: 'Вы покинули сайт' });
   } catch (err) {
     next(err);
   }
