@@ -58,7 +58,8 @@ exports.login = (req, res, next) => {
           res.cookie('movieToken', token, {
             maxAge: 3600000 * 24 * 7,
             httpOnly: true,
-            sameSite: true,
+            sameSite: 'none',
+            secure: true,
           });
           return res.status(200).send({ message: `С возвращением, ${user.name}!`, jwt: token, _id: user._id });
         })
