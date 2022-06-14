@@ -18,7 +18,7 @@ Beat Film Festival — фестиваль документальных филь�
 `Cors`: 2.8.5,   
 `Dotenv`: 16.0.0,   
 `Express`: 4.17.3,   
-`Express-rate-limit`: 6.3.0,
+`Express-rate-limit`: 6.3.0,   
 `Express-winston`: 4.2.0,   
 `Helmet`: 5.0.2,   
 `Jsonwebtoken`: 8.5.1,   
