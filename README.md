@@ -31,8 +31,3 @@ Beat Film Festival — фестиваль документальных филь�
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload 
 
-## Ссылка на проект
-
-[evgexmovies.nomoredomains.xyz](https://evgexmovies.nomoredomains.xyz/)   
-
-[Ссылка на бэкенд](https://api.evgexmovies.nomoredomains.xyz)
